@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glassy - Beleza e Cuidado Feminino</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fce4ec;
+            color: #5a3e36;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f8bbd0;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            position: relative;
+        }
+        .header-logo {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            height: 100px; /* Aumentando o tamanho da logo */
+            width: auto;
+        }
+        .login-button, .logout-button {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: #e91e63;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .login-button:hover, .logout-button:hover {
+            background-color: #c2185b;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        #produtos-lista {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .produto {
+            width: 200px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        .produto img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .produto h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .produto p {
+            font-size: 14px;
+            color: #7b7b7b;
+        }
+        .produto .preco {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e91e63;
+        }
+        .produto .botao {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #e91e63;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .produto .botao:hover {
+            background-color: #c2185b;
+        }
+        footer {
+            text-align: center;
+            background-color: #f8bbd0;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        .admin, #login-form {
+            display: none;
+        }
+        .admin-panel {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .admin-panel input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .admin-panel button {
+            padding: 10px 15px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .admin-panel button:hover {
+            background-color: #c2185b;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px 20px;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .pagination button:hover {
+            background-color: #c2185b;
+        }
+        .remove-button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .remove-button:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Adicionando media queries para responsividade */
+        @media (max-width: 768px) {
+            .produto {
+                width: 45%; /* Diminui a largura das caixas de produtos */
+            }
+            header {
+                padding: 10px;
+                font-size: 18px;
+            }
+            .header-logo {
+                height: 80px; /* Ajusta o tamanho da logo */
+            }
+            .login-button, .logout-button {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            footer p {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .produto {
+                width: 100%; /* Torna os produtos de 100% de largura em telas pequenas */
+            }
+            header {
+                font-size: 16px;
+                padding: 10px;
+            }
+            .header-logo {
+                height: 60px; /* Ajusta o tamanho da logo em telas pequenas */
+            }
+            .login-button, .logout-button {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+            footer p {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!-- Logo da loja no canto superior esquerdo -->
+        <img src="logo.png" alt="Logo da Glassy" class="header-logo" id="logo-img">
+        <a href="javascript:void(0);" class="login-button" onclick="showLoginForm()">Login</a>
+    </header>
+
+    <!-- Formulário de Login -->
+    <div class="container" id="login-form" style="display: none;">
+        <h2>Login</h2>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="Digite seu e-mail">
+        <br><br>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" placeholder="Digite sua senha">
+        <br><br>
+        <button onclick="login()">Entrar</button>
+    </div>
+
+    <!-- Página Inicial - Produtos -->
+    <div class="container" id="home-page">
+        <div id="produtos-lista"></div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <!-- Área de Administração visível após login -->
+    <div class="admin-panel" id="admin-panel" style="display: none;">
+        <h2>Área de Administração</h2>
+        <button class="logout-button" onclick="logout()">Logout</button>
+
+        <!-- Formulário para upload da logo -->
+        <h3>Alterar Logo</h3>
+        <label for="upload-logo">Upload da Logo:</label>
+        <input type="file" id="upload-logo" accept="image/*">
+        <button onclick="uploadLogo()">Alterar Logo</button>
+        
+        <div>
+            <h3>Adicionar Novo Produto</h3>
+            <label for="novo-produto-nome">Nome do Produto:</label>
+            <input type="text" id="novo-produto-nome" placeholder="Nome do Produto">
+            <label for="novo-produto-descricao">Descrição do Produto:</label>
+            <input type="text" id="novo-produto-descricao" placeholder="Descrição do Produto">
+            <label for="novo-produto-preco">Preço do Produto:</label>
+            <input type="text" id="novo-produto-preco" placeholder="Preço do Produto">
+            <label for="novo-produto-link">Link do Produto:</label>
+            <input type="text" id="novo-produto-link" placeholder="Link do Produto">
+            <label for="novo-produto-imagem">Imagem do Produto:</label>
+            <input type="file" id="novo-produto-imagem" accept="image/*">
+            <button onclick="adicionarProduto()">Adicionar Produto</button>
+        </div>
+
+        <h3>Lista de Produtos</h3>
+        <div id="produtos-lista-admin"></div>
+        <button class="remove-button" onclick="removerSelecionados()">Remover Selecionados</button>
+    </div>
+
+    <footer>
+        <p>Entre em contato:</p>
+        <p>WhatsApp: <a href="https://wa.me/14981823317">(14) 98182-3317</a></p>
+        <p>Email: <a href="mailto:victorbefer002@gmail.com">victorbefer002@gmail.com</a></p>
+    </footer>
+
+    <script>
+        let produtosPorPagina = 20;
+        let paginaAtual = 1;
+
+        // Função para salvar e carregar a logo
+        function salvarLogoNoStorage(imageData) {
+            localStorage.setItem('logo', imageData);
+        }
+
+        function carregarLogoDoStorage() {
+            const logoData = localStorage.getItem('logo');
+            if (logoData) {
+                document.getElementById('logo-img').src = logoData;
+            }
+        }
+
+        // Função chamada ao enviar a logo
+        function uploadLogo() {
+            let logoInput = document.getElementById('upload-logo');
+            let logoFile = logoInput.files[0];
+
+            if (logoFile) {
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    // Salva a logo no localStorage
+                    salvarLogoNoStorage(reader.result);
+                    // Atualiza a logo na página
+                    document.getElementById('logo-img').src = reader.result;
+                    alert('Logo atualizada com sucesso!');
+                };
+                reader.readAsDataURL(logoFile);
+            } else {
+                alert('Por favor, selecione um arquivo de logo.');
+            }
+        }
+
+        // Carregar a logo ao carregar a página
+        window.onload = function() {
+            carregarLogoDoStorage();
+            carregarProdutos();
+        };
+
+        function showLoginForm() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+        }
+
+        function login() {
+            let email = document.getElementById('email').value;
+            let senha = document.getElementById('senha').value;
+            if (email === 'victorbefer002@gmail.com' && senha === 'fernandes1406') {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                document.querySelector('.login-button').style.display = 'none';
+                document.querySelector('.logout-button').style.display = 'block';
+                carregarProdutos();
+            } else {
+                alert('Acesso restrito! Apenas o administrador pode acessar esta área.');
+            }
+        }
+
+        function logout() {
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+            document.querySelector('.login-button').style.display = 'block';
+            document.querySelector('.logout-button').style.display = 'none';
+        }
+
+        function adicionarProduto() {
+            let nome = document.getElementById('novo-produto-nome').value;
+            let descricao = document.getElementById('novo-produto-descricao').value;
+            let preco = document.getElementById('novo-produto-preco').value;
+            let link = document.getElementById('novo-produto-link').value;
+            let imagem = document.getElementById('novo-produto-imagem').files[0];
+
+            let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+            let novoProduto = {
+                nome: nome,
+                descricao: descricao,
+                preco: preco,
+                link: link,
+                imagem: ''
+            };
+
+            if (imagem) {
+                let reader = new FileReader();
+                reader.onloadend = function () {
+                    novoProduto.imagem = reader.result;
+                    produtos.push(novoProduto);
+                    localStorage.setItem('produtos', JSON.stringify(produtos));
+                    carregarProdutos();
+                    alert('Produto adicionado com sucesso!');
+                };
+                reader.readAsDataURL(imagem);
+            } else {
+                produtos.push(novoProduto);
+                localStorage.setItem('produtos', JSON.stringify(produtos));
+                carregarProdutos();
+                alert('Produto adicionado com sucesso!');
+            }
+        }
+
+        function removerSelecionados() {
+            let checkboxes = document.querySelectorAll('.produto-checkbox:checked');
+            let indicesParaRemover = Array.from(checkboxes).map(function(checkbox) {
+                return parseInt(checkbox.value);
+            });
+
+            let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+            produtos = produtos.filter(function(_, index) {
+                return !indicesParaRemover.includes(index);
+            });
+
+            localStorage.setItem('produtos', JSON.stringify(produtos));
+            carregarProdutos();
+        }
+
+        function carregarProdutos() {
+            let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+            let listaProdutos = document.getElementById('produtos-lista');
+            let listaProdutosAdmin = document.getElementById('produtos-lista-admin');
+            let pagination = document.getElementById('pagination');
+            listaProdutos.innerHTML = '';
+            listaProdutosAdmin.innerHTML = '';
+            let totalProdutos = produtos.length;
+            let totalPaginas = Math.ceil(totalProdutos / produtosPorPagina);
+
+            let inicio = (paginaAtual - 1) * produtosPorPagina;
+            let fim = inicio + produtosPorPagina;
+            let produtosExibidos = produtos.slice(inicio, fim);
+
+            produtosExibidos.forEach(function(produto, index) {
+                let produtoDiv = document.createElement('div');
+                produtoDiv.classList.add('produto');
+                
+                let produtoImagem = document.createElement('img');
+                produtoImagem.src = produto.imagem || 'imagem-produto.jpg';
+                produtoImagem.alt = produto.nome;
+                produtoDiv.appendChild(produtoImagem);
+
+                let produtoNome = document.createElement('h3');
+                produtoNome.innerText = produto.nome;
+                produtoDiv.appendChild(produtoNome);
+
+                let produtoDescricao = document.createElement('p');
+                produtoDescricao.innerText = produto.descricao;
+                produtoDiv.appendChild(produtoDescricao);
+
+                let produtoPreco = document.createElement('p');
+                produtoPreco.classList.add('preco');
+                produtoPreco.innerHTML = `R$ ${produto.preco}`;
+                produtoDiv.appendChild(produtoPreco);
+
+                let produtoBotao = document.createElement('a');
+                produtoBotao.href = produto.link;
+                produtoBotao.classList.add('botao');
+                produtoBotao.target = "_blank";
+                produtoBotao.innerText = 'Comprar Agora';
+                produtoDiv.appendChild(produtoBotao);
+
+                listaProdutos.appendChild(produtoDiv);
+                
+                // Adicionar checkbox de seleção para remover
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('produto-checkbox');
+                checkbox.value = index;
+                listaProdutosAdmin.appendChild(checkbox);
+
+                let produtoNomeAdmin = document.createElement('h3');
+                produtoNomeAdmin.innerText = produto.nome;
+                listaProdutosAdmin.appendChild(produtoNomeAdmin);
+            });
+
+            pagination.innerHTML = '';
+            if (paginaAtual > 1) {
+                let btnAnterior = document.createElement('button');
+                btnAnterior.innerText = 'Anterior';
+                btnAnterior.onclick = function() {
+                    paginaAtual--;
+                    carregarProdutos();
+                };
+                pagination.appendChild(btnAnterior);
+            }
+
+            if (paginaAtual < totalPaginas) {
+                let btnProximo = document.createElement('button');
+                btnProximo.innerText = 'Próximo';
+                btnProximo.onclick = function() {
+                    paginaAtual++;
+                    carregarProdutos();
+                };
+                pagination.appendChild(btnProximo);
+            }
+        }
+    </script>
+</body>
+</html>
